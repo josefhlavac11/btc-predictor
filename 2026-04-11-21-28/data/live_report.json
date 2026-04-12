@@ -1,0 +1,58 @@
+{
+  "time_sec": "01:10:05",
+  "price": 72967.35,
+  "vwap": 73332.27,
+  "vwap_diff": -364.92,
+  "session": "V\u00edkend",
+  "vol_mult": 0.4,
+  "weekend": true,
+  "long_score": 6,
+  "short_score": 4,
+  "long_signal": true,
+  "short_signal": false,
+  "scalp_long": false,
+  "scalp_short": false,
+  "ob_imb": 0.1722,
+  "levels": {
+    "pdh": 73482.41,
+    "pdl": 71437.43,
+    "pdc": 72995.4,
+    "pdo": 71803.44,
+    "weekly_open": 69747.94,
+    "today_hi": 73836.68,
+    "today_lo": 72558.34
+  },
+  "tp_probs": {
+    "long": {
+      "150": 82,
+      "300": 55,
+      "500": 33,
+      "750": 15
+    },
+    "short": {
+      "150": 88,
+      "300": 65,
+      "500": 40,
+      "750": 20
+    }
+  },
+  "indicators": {
+    "1m": {
+      "rsi": 18.3,
+      "sk": 0.0,
+      "mh": -33.88
+    },
+    "5m": {
+      "rsi": 28.8,
+      "sk": 0.0
+    },
+    "15m": {
+      "rsi": 36.9,
+      "sk": 2.4
+    },
+    "1h": {
+      "rsi": 49.6,
+      "sk": 36.6
+    }
+  }
+}

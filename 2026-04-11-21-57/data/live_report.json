@@ -1,0 +1,618 @@
+{
+  "version": "5.0.0",
+  "time": "01:56:31",
+  "price": 73092.12,
+  "vwap": 73257.54,
+  "session": "V\u00edkend",
+  "long_score": 7,
+  "short_score": 3,
+  "long_signal": true,
+  "short_signal": false,
+  "momentum": 52.0,
+  "trade_type": "swing",
+  "position": {
+    "btc": 0.5,
+    "notional": 36546.0,
+    "risk": 75.0,
+    "risk_pct": 0.75,
+    "target": 300.0,
+    "leverage": 3.65,
+    "min_enforced": true,
+    "tp_price": 73692.0,
+    "sl_price": 72942.0,
+    "be_price": 73292.0
+  },
+  "ob_imb": 0.7845,
+  "levels": {
+    "pdh": 73482.41,
+    "pdl": 71437.43,
+    "pdc": 72995.4,
+    "weekly_open": 108689.01
+  },
+  "camarilla": {
+    "R4": 74120.14,
+    "R3": 73557.77,
+    "R2": 73370.31,
+    "R1": 73182.86,
+    "PP": 72638.41,
+    "S1": 72807.94,
+    "S2": 72620.49,
+    "S3": 72433.03,
+    "S4": 71870.66
+  },
+  "fib_ext": {
+    "100%": 73273.55,
+    "127.2%": 73365.74,
+    "161.8%": 73483.02
+  },
+  "gann": {
+    "r": [
+      73159.72,
+      73227.36,
+      73295.03,
+      73362.73
+    ],
+    "s": [
+      73024.55,
+      72957.0,
+      72889.49,
+      72822.01
+    ]
+  },
+  "prediction": {
+    "eta": 182.0,
+    "lo_t": "04:35",
+    "hi_t": "05:22",
+    "time": "04:58",
+    "n": 227,
+    "avg_swing": 231.0
+  },
+  "validation": {
+    "ok": true,
+    "n_cycles": 227,
+    "n_signal_ok": 143,
+    "signal_catch_rate": 63.0,
+    "n_swing_300": 88,
+    "n_swing_500": 29,
+    "timing_err_avg": 15.5,
+    "fib_err_avg": 229.0,
+    "momentum_corr": -0.003,
+    "tp_hit_pct": {
+      "Scalp": 78.0,
+      "Micro-swing": 32.0,
+      "Swing": 9.0,
+      "Swing+": 2.0
+    },
+    "missed_trades": [
+      {
+        "time": "23:43",
+        "swing": 377.0,
+        "dur": 21,
+        "rsi": 40.5,
+        "sk": 25.3,
+        "mom": 49.1,
+        "missing": [
+          "RSI \u226440",
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "02:21",
+        "swing": 388.0,
+        "dur": 20,
+        "rsi": 46.1,
+        "sk": 1.8,
+        "mom": 51.4,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "04:00",
+        "swing": 556.0,
+        "dur": 11,
+        "rsi": 49.3,
+        "sk": 66.3,
+        "mom": 64.7,
+        "missing": [
+          "RSI \u226440",
+          "SK \u226425"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "11:00",
+        "swing": 1086.0,
+        "dur": 22,
+        "rsi": 44.1,
+        "sk": 11.2,
+        "mom": 55.4,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "15:37",
+        "swing": 401.0,
+        "dur": 23,
+        "rsi": 35.0,
+        "sk": 26.8,
+        "mom": 61.7,
+        "missing": [
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "20:08",
+        "swing": 491.0,
+        "dur": 19,
+        "rsi": 42.1,
+        "sk": 28.3,
+        "mom": 43.9,
+        "missing": [
+          "RSI \u226440",
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "22:01",
+        "swing": 366.0,
+        "dur": 34,
+        "rsi": 36.4,
+        "sk": 37.4,
+        "mom": 37.8,
+        "missing": [
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed",
+          "Moment\u226540"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "22:02",
+        "swing": 366.0,
+        "dur": 33,
+        "rsi": 41.4,
+        "sk": 17.4,
+        "mom": 36.9,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed",
+          "Moment\u226540"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "01:07",
+        "swing": 829.0,
+        "dur": 59,
+        "rsi": 8.8,
+        "sk": 35.9,
+        "mom": 60.7,
+        "missing": [
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "01:30",
+        "swing": 649.0,
+        "dur": 36,
+        "rsi": 40.3,
+        "sk": 46.9,
+        "mom": 31.2,
+        "missing": [
+          "RSI \u226440",
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed",
+          "Moment\u226540"
+        ],
+        "signal_met": 0
+      },
+      {
+        "time": "04:08",
+        "swing": 433.0,
+        "dur": 30,
+        "rsi": 40.4,
+        "sk": 60.7,
+        "mom": 42.6,
+        "missing": [
+          "RSI \u226440",
+          "SK \u226425"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "13:01",
+        "swing": 389.0,
+        "dur": 36,
+        "rsi": 21.3,
+        "sk": 50.6,
+        "mom": 57.4,
+        "missing": [
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "16:19",
+        "swing": 456.0,
+        "dur": 14,
+        "rsi": 34.3,
+        "sk": 69.0,
+        "mom": 34.1,
+        "missing": [
+          "SK \u226425",
+          "Moment\u226540"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "17:42",
+        "swing": 384.0,
+        "dur": 21,
+        "rsi": 46.7,
+        "sk": 6.7,
+        "mom": 37.4,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed",
+          "Moment\u226540"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "21:07",
+        "swing": 469.0,
+        "dur": 13,
+        "rsi": 36.6,
+        "sk": 68.9,
+        "mom": 50.0,
+        "missing": [
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "04:04",
+        "swing": 349.0,
+        "dur": 8,
+        "rsi": 48.4,
+        "sk": 47.0,
+        "mom": 55.4,
+        "missing": [
+          "RSI \u226440",
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "10:43",
+        "swing": 339.0,
+        "dur": 23,
+        "rsi": 41.4,
+        "sk": 15.9,
+        "mom": 40.8,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "03:24",
+        "swing": 395.0,
+        "dur": 9,
+        "rsi": 39.3,
+        "sk": 26.5,
+        "mom": 50.5,
+        "missing": [
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "04:15",
+        "swing": 381.0,
+        "dur": 37,
+        "rsi": 42.0,
+        "sk": 0.3,
+        "mom": 44.1,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "11:38",
+        "swing": 377.0,
+        "dur": 19,
+        "rsi": 40.7,
+        "sk": 0.4,
+        "mom": 46.9,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "17:09",
+        "swing": 1476.0,
+        "dur": 53,
+        "rsi": 40.9,
+        "sk": 0.0,
+        "mom": 38.8,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed",
+          "Moment\u226540"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "17:30",
+        "swing": 1113.0,
+        "dur": 32,
+        "rsi": 50.8,
+        "sk": 0.0,
+        "mom": 39.0,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed",
+          "Moment\u226540"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "18:08",
+        "swing": 481.0,
+        "dur": 67,
+        "rsi": 51.1,
+        "sk": 0.0,
+        "mom": 64.6,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "22:51",
+        "swing": 418.0,
+        "dur": 16,
+        "rsi": 42.4,
+        "sk": 0.0,
+        "mom": 41.2,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "21:46",
+        "swing": 368.0,
+        "dur": 13,
+        "rsi": 44.3,
+        "sk": 66.8,
+        "mom": 40.9,
+        "missing": [
+          "RSI \u226440",
+          "SK \u226425"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "22:39",
+        "swing": 372.0,
+        "dur": 17,
+        "rsi": 40.2,
+        "sk": 3.8,
+        "mom": 39.1,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed",
+          "Moment\u226540"
+        ],
+        "signal_met": 1
+      },
+      {
+        "time": "20:04",
+        "swing": 701.0,
+        "dur": 33,
+        "rsi": 37.7,
+        "sk": 25.5,
+        "mom": 52.5,
+        "missing": [
+          "SK \u226425",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      },
+      {
+        "time": "21:22",
+        "swing": 335.0,
+        "dur": 11,
+        "rsi": 43.1,
+        "sk": 2.5,
+        "mom": 42.9,
+        "missing": [
+          "RSI \u226440",
+          "MH ot\u00e1\u010d\u00ed"
+        ],
+        "signal_met": 2
+      }
+    ],
+    "last_cycles": [
+      {
+        "lo_t": "23:02",
+        "hi_t": "23:17",
+        "lo_p": 73234.0,
+        "hi_p": 73475.0,
+        "swing": 241.0,
+        "dur": 15,
+        "rsi_lo": 38.0,
+        "sk_lo": 4.1,
+        "mom": 65.8,
+        "signal_ok": true,
+        "signal_met": 4,
+        "fib_pred": 73465.0,
+        "fib_err": 10.0,
+        "pred_dur": 21.0,
+        "timing_err": 6.0
+      },
+      {
+        "lo_t": "23:27",
+        "hi_t": "00:16",
+        "lo_p": 73345.0,
+        "hi_p": 73602.0,
+        "swing": 258.0,
+        "dur": 49,
+        "rsi_lo": 44.0,
+        "sk_lo": 26.0,
+        "mom": 42.5,
+        "signal_ok": false,
+        "signal_met": 1,
+        "fib_pred": 73586.0,
+        "fib_err": 16.0,
+        "pred_dur": 15.0,
+        "timing_err": 34.0
+      },
+      {
+        "lo_t": "00:00",
+        "hi_t": "00:16",
+        "lo_p": 73406.0,
+        "hi_p": 73602.0,
+        "swing": 197.0,
+        "dur": 16,
+        "rsi_lo": 40.2,
+        "sk_lo": 0.0,
+        "mom": 58.0,
+        "signal_ok": false,
+        "signal_met": 2,
+        "fib_pred": 0,
+        "fib_err": null,
+        "pred_dur": 27.0,
+        "timing_err": 11.0
+      },
+      {
+        "lo_t": "00:37",
+        "hi_t": "00:55",
+        "lo_p": 73263.0,
+        "hi_p": 73420.0,
+        "swing": 156.0,
+        "dur": 18,
+        "rsi_lo": 34.0,
+        "sk_lo": 39.1,
+        "mom": 59.7,
+        "signal_ok": false,
+        "signal_met": 2,
+        "fib_pred": 73460.0,
+        "fib_err": -40.0,
+        "pred_dur": 27.0,
+        "timing_err": 9.0
+      },
+      {
+        "lo_t": "01:10",
+        "hi_t": "01:25",
+        "lo_p": 72935.0,
+        "hi_p": 73248.0,
+        "swing": 313.0,
+        "dur": 15,
+        "rsi_lo": 19.4,
+        "sk_lo": 0.0,
+        "mom": 67.9,
+        "signal_ok": true,
+        "signal_met": 3,
+        "fib_pred": 73091.0,
+        "fib_err": 157.0,
+        "pred_dur": 28.0,
+        "timing_err": 13.0
+      }
+    ]
+  },
+  "gap_to_long": [
+    {
+      "name": "1M SK \u226445",
+      "eta_min": 2,
+      "eta_time": "01:58"
+    },
+    {
+      "name": "5M MH ok",
+      "eta_min": 1,
+      "eta_time": "01:57"
+    }
+  ],
+  "gap_to_short": [
+    {
+      "name": "1M RSI 62-82",
+      "eta_min": 17,
+      "eta_time": "02:13"
+    },
+    {
+      "name": "1M SK \u226565",
+      "eta_min": 6,
+      "eta_time": "02:02"
+    },
+    {
+      "name": "1M MH\u2193",
+      "eta_min": 5,
+      "eta_time": "02:01"
+    },
+    {
+      "name": "5M RSI >55",
+      "eta_min": 52,
+      "eta_time": "02:48"
+    },
+    {
+      "name": "5M SK >55",
+      "eta_min": 8,
+      "eta_time": "02:04"
+    },
+    {
+      "name": "15M RSI 45-75",
+      "eta_min": 75,
+      "eta_time": "03:11"
+    }
+  ],
+  "ind": {
+    "1m": {
+      "rsi": 45.0,
+      "sk": 49.7,
+      "mh": -2.3
+    },
+    "3m": {
+      "rsi": 41.0,
+      "sk": 43.8
+    },
+    "5m": {
+      "rsi": 39.5,
+      "sk": 42.3
+    },
+    "15m": {
+      "rsi": 41.2,
+      "sk": 10.4
+    },
+    "1h": {
+      "rsi": 51.8,
+      "sk": 40.0
+    }
+  }
+}
