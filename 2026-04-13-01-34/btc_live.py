@@ -639,23 +639,25 @@ def analyze(equity=10000, risk_pct=1.0, do_validate=True):
               "atr":"volatilita"}.get(k,"")
         print(f"    {k:<12} {v:>5.1f}  {b}  {note}")
 
-    # Klasifikace obchodu
+    # Klasifikace obchodu + velikost pozice
     print(f"\n  {sep}")
-    print(f"  TYP OBCHODU: {trade['label'].upper()}  (confidence: {trade['confidence']}, skóre {trade['best_score']})")
-    print(f"  {trade['desc']}")
-    print(f"  TF: primární {trade['tf_primary']}, potvrzení {trade['tf_confirm']}")
-    print(f"  Cíl: {trade['min_usdc']}–{trade['max_usdc']} USDC  Max trvání: {trade['max_min']} min  R:R {trade['rr']}")
-    print(f"  Skóre typů: {', '.join(f'{k}: {v}' for k,v in trade['scores'].items())}")
+    if trade["signal"]:
+        print(f"  TYP OBCHODU: {trade['label'].upper()}  (confidence: {trade['confidence']}, skóre {trade['best_score']})")
+        print(f"  {trade['desc']}")
+        print(f"  TF: primární {trade['tf_primary']}, potvrzení {trade['tf_confirm']}")
+        print(f"  Cíl: {trade['min_usdc']}–{trade['max_usdc']} USDC  Max trvání: {trade['max_min']} min  R:R {trade['rr']}")
+        print(f"  Podmínky: {', '.join(k for k,v in trade['conditions'].items() if v)}")
 
-    # Velikost pozice
-    print(f"\n  {sep}")
-    print(f"  VELIKOST POZICE  (portfolio: {equity:,} USDC  risk: {risk_pct}%)")
-    print(f"  BTC:     {ps['btc_qty']}")
-    print(f"  Notionál: {ps['notional']:,} USDC  Leverage: {ps['leverage']}×")
-    print(f"  Risk:    {ps['risk_usdc']} USDC ({ps['risk_pct']}%)")
-    print(f"  Cíl:     {ps['target_usdc']} USDC{'  ⚠ minimum vynuceno' if ps['min_enforced'] else ''}")
-    print(f"  TP:      {ps['tp_price']:,.0f}  SL: {ps['sl_price']:,.0f}  BE: {ps['be_price']:,.0f}")
-    if wday>=5: print(f"  ⚠  VÍKEND — pozice snížena na {sess['mult']*100:.0f}% standardu")
+        print(f"\n  {sep}")
+        print(f"  VELIKOST POZICE  (portfolio: {equity:,} USDC  risk: {risk_pct}%)")
+        print(f"  BTC:     {ps['btc_qty']}")
+        print(f"  Notionál: {ps['notional']:,} USDC  Leverage: {ps['leverage']}×")
+        print(f"  Risk:    {ps['risk_usdc']} USDC ({ps['risk_pct']}%)")
+        print(f"  Cíl:     {ps['target_usdc']} USDC{'  ⚠ minimum vynuceno' if ps['min_enforced'] else ''}")
+        print(f"  TP:      {ps['tp_price']:,.0f}  SL: {ps['sl_price']:,.0f}  BE: {ps['be_price']:,.0f}")
+        if wday>=5: print(f"  ⚠  VÍKEND — pozice snížena na {sess['mult']*100:.0f}% standardu")
+    else:
+        print(f"  Žádný signál — podmínky nesplněny")
 
     # Klíčové úrovně
     print(f"\n  {sep}")

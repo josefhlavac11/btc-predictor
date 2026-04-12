@@ -207,53 +207,34 @@ def momentum_score(i1, i3, i5):
 
 # ── KLASIFIKÁTOR OBCHODU ──────────────────────────────────────────────────────
 def classify_trade(i1,i3,i5,i15,i1h):
-    scores={}
+    """
+    Hierarchický klasifikátor — podmínky místo bodování.
+    Pořadí priority: Scalp → Micro-swing → Swing → Swing+.
+    Swing+ long vetován pokud je 1H v downtrendu (e9 < e21 x 0.998).
+    """
+    mh_up   = i1["mh"] > i1["mh_p"]
+    h1_bull = i1h["e9"] >= i1h["e21"] * 0.995
+    h1_down = i1h["e9"] <  i1h["e21"] * 0.998
 
-    sc=0  # SCALP
-    if i1["sk"]<=10: sc+=4
-    elif i1["sk"]<=25: sc+=2
-    if i1["rsi"]<=30: sc+=3
-    elif i1["rsi"]<=40: sc+=1
-    if i1["mh"]>i1["mh_p"]: sc+=2
-    if i3["sk"]<=20: sc-=2   # 3M taky extrémní → micro-swing
-    if i5["sk"]<=20: sc-=2
-    if i15["rsi"]<38: sc-=3  # 15M nízko → swing
-    scores["scalp"]=max(0,sc)
+    conds={
+        "scalp":       i1["sk"]  <= 20 and mh_up,
+        "micro_swing": i3["sk"]  <= 30 and i5["sk"] <= 35,
+        "swing":       i15["sk"] <= 30 and h1_bull,
+        "swing_plus":  i1h["sk"] <= 25 and not h1_down,
+    }
 
-    ms=0  # MICRO-SWING
-    if i3["sk"]<=25: ms+=3
-    elif i3["sk"]<=40: ms+=1
-    if i5["sk"]<=30: ms+=3
-    elif i5["sk"]<=45: ms+=1
-    if i5["rsi"]<48: ms+=2
-    if i3["mh"]<0: ms+=2
-    if 35<i15["rsi"]<50: ms+=2
-    if i5["vol_ratio"]>1.3: ms+=1
-    if i5["sk"]>70: ms-=3
-    if i15["rsi"]<35: ms-=2
-    scores["micro_swing"]=max(0,ms)
+    order  = ["scalp","micro_swing","swing","swing_plus"]
+    best   = next((t for t in order if conds[t]), None)
+    signal = best is not None
 
-    sw=0  # SWING
-    if i15["rsi"]<40: sw+=4
-    elif i15["rsi"]<48: sw+=2
-    if i15["sk"]<=30: sw+=3
-    if i5["mh"]<0: sw+=2
-    if i15["mh"]<0: sw+=3
-    if 30<i1h["rsi"]<55: sw+=2
-    if i1h["e9"]>=i1h["e21"]*0.995: sw+=1
-    if i15["sk"]>60: sw-=2
-    scores["swing"]=max(0,sw)
+    if not signal:
+        best = "scalp"
 
-    sp=0  # SWING+
-    if i1h["rsi"]<40: sp+=4
-    if i1h["sk"]<=25: sp+=3
-    if i1h["mh"]<0: sp+=3
-    if i1h["e9"]<i1h["e21"]*0.998: sp+=2
-    scores["swing_plus"]=max(0,sp)
-
-    best=max(scores,key=scores.get)
-    conf="vysoká" if scores[best]>=7 else "střední" if scores[best]>=4 else "nízká"
-    return {"type":best,"scores":scores,"confidence":conf,"best_score":scores[best],**TRADE_TYPES[best]}
+    met  = sum(conds.values())
+    conf = "vysoká" if signal and met>=2 else "střední" if signal else "žádný"
+    return {"type":best,"signal":signal,"conditions":conds,
+            "scores":{k:(1 if v else 0) for k,v in conds.items()},
+            "confidence":conf,"best_score":met,**TRADE_TYPES[best]}
 
 # ── POSITION SIZING ───────────────────────────────────────────────────────────
 def position_size(equity, entry, trade_type, momentum, sess_mult, weekend, risk_pct=1.0):
