@@ -810,3 +810,32 @@ btc-predictor/
 4. Napsat config.json kompatibilní s Freqtrade
 5. Spustit Freqtrade v dry-run módu s naší strategií
 6. Přepnout na FreqAI pro ML predikce
+
+---
+
+## LuxAlgo jako nezávislý oponentní posudek
+
+### Princip
+- LuxAlgo na TradingView = nezávislý referenční bod
+- Vyvíjí se paralelně s naším systémem
+- Není integrovaný do kódu = žádný maintenance problém
+- Používáme ho jako inspiraci a kalibrační referenci
+- Opisovat logiku do Pythonu ano, závislost na jejich aktualizacích ne
+
+### Jak prediktor zobrazí shodu nebo rozdíl
+
+SOUHLASÍ S LUXALGO:
+"LuxAlgo potvrzuje long signal → pravděpodobnost +8%"
+"LuxAlgo SMC confluence na stejné hladině → +12%"
+
+NESOUHLASÍ S LUXALGO:
+"LuxAlgo nezobrazuje signal → pravděpodobnost -10%"
+"LuxAlgo zobrazuje opačný signal → pravděpodobnost -20%"
+"Důvod rozdílu: náš systém vidí StochRSI confluence,
+ LuxAlgo čeká na potvrzení vyššího timeframu"
+
+### Jak využívat LuxAlgo
+- Inspirovat se logikou a opisovat do Pythonu
+- Porovnávat výstupy na stejných historických datech
+- Rozdíly analyzovat a zlepšovat náš systém
+- Nikdy nečekat na jejich aktualizace pro funkčnost našeho kódu
