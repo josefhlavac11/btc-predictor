@@ -701,3 +701,112 @@ upravená o kontext: seance, ATR, trend, CVD, OI, funding rate
 5. Kalibrovat pravděpodobnosti
 6. Integrovat do btc_live.py
 10. Manipulation sweep vs skutečný obrat detektor
+
+---
+
+## Modulární architektura projektu — směřování k Freqtrade
+
+### Freqtrade architektura — jak je postavený
+Freqtrade má přísně modulární strukturu kterou musíme respektovat:
+
+MODUL 1 — Konfigurace (config.json):
+- Připojení na Binance API
+- Párové listy (BTC/USDC, ETH/USDC, SOL/USDC...)
+- Risk management parametry
+- Timeframy
+- FreqAI parametry (train_period_days, backtest_period_days)
+- Korelované páry pro feature engineering
+
+MODUL 2 — Indikátory (populate_indicators):
+- Každý indikátor = samostatná funkce
+- Výstup = sloupce v pandas DataFrame
+- RSI, MACD, StochRSI, Klinger, EMA, VWAP, ATR, CVD proxy
+- Volume Profile (HVN/LVN) jako vlastní indikátor
+- Fibonacci úrovně jako vlastní výpočet
+- Multi-timeframe indikátory přes informative_pairs
+
+MODUL 3 — Vstupní signály (populate_entry_trend):
+- enter_long = 1 kdy vstoupit do longu
+- enter_short = 1 kdy vstoupit do shortu
+- Podmínky z indikátorů = třístupňový systém
+- Tagování vstupů (scalp_entry, micro_swing_entry, swing_entry)
+
+MODUL 4 — Výstupní signály (populate_exit_trend):
+- exit_long = 1 kdy vystoupit z longu
+- exit_short = 1 kdy vystoupit z shortu
+- TP na HVN nebo Fibonacci extenzi
+- Časové limity per typ obchodu
+
+MODUL 5 — Hyperopt (optimalizace):
+- Automatické hledání optimálních prahů indikátorů
+- Váhy pro každý indikátor na každém timeframu
+- Výstup = kalibrované pravděpodobnosti
+- Periodicke přelaďování na nových datech
+
+MODUL 6 — FreqAI (ML vrstva):
+- Trénink modelu na historických datech
+- Feature set = všechny indikátory ze STRATEGIE.md
+- Label = zda pohyb dosáhl 300+ USDC do X minut
+- Predikce pravděpodobnosti pro každý vstup
+- Automatický retrénink na pozadí
+
+MODUL 7 — FreqUI (vizualizace):
+- Real-time dashboard s otevřenými pozicemi
+- Grafy se signály a indikátory
+- Performance metriky (winrate, profit, drawdown)
+- Náhrada za btc_live.py výstup do konzole
+
+MODUL 8 — Telegram notifikace:
+- Zabudované v Freqtrade
+- Třístupňové alerty podle STRATEGIE.md
+- Zprávy o otevřených a uzavřených pozicích
+
+### Jak náš projekt mapuje na Freqtrade
+
+AKTUÁLNÍ btc_live.py → FREQTRADE MODUL:
+- fetch_data() → dataprovider (zabudované)
+- indikátory → populate_indicators()
+- classify_trade() → populate_entry_trend()
+- výstup do konzole → FreqUI
+- --watch loop → Freqtrade live mode
+- position sizing → stake_amount + leverage config
+- SL/TP logika → stoploss + custom_exit()
+
+### Jak strukturovat kód projektu pro snadný přechod
+
+AKTUÁLNÍ STRUKTURA:
+btc_live.py — vše v jednom souboru = špatně
+
+CÍLOVÁ MODULÁRNÍ STRUKTURA:
+btc-predictor/
+├── config/
+│   └── config.json          ← Freqtrade ready
+├── indicators/
+│   ├── momentum.py           ← CVD, delta volume
+│   ├── volume_profile.py     ← HVN/LVN výpočty
+│   ├── fibonacci.py          ← Fib retracement/extenze
+│   └── market_regime.py      ← detekce manipulace vs organický
+├── strategies/
+│   └── BTCScalpStrategy.py   ← Freqtrade IStrategy
+├── filters/
+│   ├── timeframe_filter.py   ← seance, ATR kontext
+│   └── trend_filter.py       ← market structure, BTC.D
+├── utils/
+│   ├── notifications.py      ← Telegram alerty
+│   └── position_sizing.py    ← Kelly kalkulátor
+└── btc_live.py               ← dočasný wrapper dokud nepřejdeme na Freqtrade
+
+### Výhody modulární struktury
+- Každý modul lze testovat samostatně
+- Indikátory se přenesou 1:1 do Freqtrade populate_indicators()
+- Strategie se přenese 1:1 do Freqtrade IStrategy
+- Hyperopt může optimalizovat každý modul zvlášť
+- FreqAI může použít libovolnou kombinaci indikátorů jako features
+
+### Prioritní refaktoring
+1. Extrahovat indikátory z btc_live.py do indicators/
+2. Extrahovat classify_trade() do strategies/BTCScalpStrategy.py
+3. Extrahovat position sizing do utils/
+4. Napsat config.json kompatibilní s Freqtrade
+5. Spustit Freqtrade v dry-run módu s naší strategií
+6. Přepnout na FreqAI pro ML predikce
