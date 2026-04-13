@@ -488,4 +488,216 @@ SKUTEČNÝ OBRAT = jednej:
 7. MACD cyklová analýza — výpočet ploch
 8. Třístupňové notifikace na telefon
 9. Časová platnost predikce — čtyři stavy
+
+---
+
+## Tři typy shortů
+
+### Short typ 1 — Po velkém výstřelu nahoru
+- Nejjednodušší, nejvyšší pravděpodobnost
+- Trigger: rychlý pohyb přes LVN → zastavení na HVN
+- Potvrzení: objem slábne + StochRSI >80 na 3M + MACD zelené sloupce blednou
+- Vstup: při potvrzení slábnutí, ne na ostrém vrcholu
+- Čas na rozhodnutí: 2-5 minut
+- TP: Fibonacci 0.236 = pravděpodobnost ~85%
+- SL: nad HVN kde pohyb zastavil
+
+### Short typ 2 — Zajišťovací mezi cykly
+- Střední obtížnost
+- Trigger: dosažení Fibonacci extenze 1.000 = první vrchol cyklu
+- Potvrzení: korekce nepřekročí 0.618 = struktura drží
+- Vstup: od vrcholu při prvních známkách slábnutí
+- Long pozice zůstává otevřená
+- TP: 0.382 nebo 0.500 Fib retracementu
+- SL: nad vrcholem
+- Čas na rozhodnutí: 1-3 minuty
+
+### Short typ 3 — Ve směru downtrendu
+- Nejjistější z hlediska směru trendu
+- Trigger: jasný downtrend na 1H a 4H + korekce nahoru slábne
+- Potvrzení: StochRSI překoupený na 3M+5M + MACD bledne + objem slábne při korekci
+- Vstup: při potvrzení konce korekce nahoru
+- TP: další HVN níže nebo Fibonacci extenze dolů
+- SL: nad poslední resistance nebo HVN
+- Poznámka: long korekce v tomto režimu = vysoké riziko, pouze s těsným SL a malou pozicí
+
+### Pořadí obtížnosti
+Nejjednodušší → Nejtěžší:
+Short typ 1 (po výstřelu) → Short typ 2 (zajišťovací) → Short typ 3 (ve směru trendu)
+
+---
+
+## Detekce dna vs trigger vstupu
+
+### Dva různé momenty — nesmí se zaměňovat
+
+MOMENT 1 — Detekce dna (příprava):
+- RSI 3M ≤30 AND RSI 5M ≤30 = dno se formuje
+- Cena ještě klesá nebo konsoliduje
+- Prediktor říká: "Dno se formuje, připrav limit příkazy"
+- Zadáš příkazy dopředu na HVN nebo Fibonacci úroveň
+
+MOMENT 2 — Trigger vstupu (exekuce):
+- RSI se odráží zpět nad 30
+- StochRSI crossover K>D na 1M nebo 3M
+- MACD histogram otáčí nahoru
+- Absorption pattern potvrzuje
+- Prediktor říká: "Trigger aktivní, příkaz se blíží k vyplnění"
+
+### Tři vstupní situace u dna
+
+SITUACE 1 — Anticipatory entry NA dně:
+- Prediktor předpoví kde bude dno před tím než tam cena dojde
+- Limit příkaz zadán dopředu na HVN nebo Fibonacci úroveň
+- Vyplní se automaticky, žádný stres
+
+SITUACE 2 — Potvrzení dna když už máš nakoupeno:
+- Nakoupil jsi nad dnem, cena šla níž
+- Ticker vyhodnotí: absorption pattern + CVD + StochRSI crossover
+- Říká: "Toto je pravděpodobně dno, drž" nebo "Ještě klesne, připrav DCA"
+
+SITUACE 3 — Retest entry:
+- Cena udělala dno, odrazila se, vrací se otestovat dno znovu
+- Vstup na Fibonacci úrovni poslední svíčky nebo formace která dno tvořila
+- Objem při retestaci nižší než při formování dna = potvrzení
+
+---
+
+## Selektivní obchodování — 2-5 obchodů denně
+
+### Kritéria kvality vstupu
+- MACD + RSI + StochRSI v ideální confluence = všechny tři potvrzují
+- Jednoznačně jasný trend na 1H nebo 4H
+- Korekce má dostatečnou sílu:
+  - Velikost odpovídá ATR násobku (0.5x až 1x ATR)
+  - Dosáhla HVN nebo Fibonacci úrovně
+  - RSI 3M+5M na extrému
+
+### Dva typy obchodů
+TYP A — Ve směru trendu:
+- Trend jasný na 1H nebo 4H
+- Vstup na retestaci supportu nebo při průlomu
+- Nižší riziko, vyšší pravděpodobnost
+- MACD + RSI + StochRSI potvrzují směr
+
+TYP B — Korekce proti trendu:
+- Trend jasný ale přeprodaný nebo překoupený
+- MACD divergence na 3M nebo 5M
+- RSI 3M+5M na extrému
+- Vstup na HVN s těsným SL
+- Vyšší riziko, omezený TP do první resistance
+- Ideálně zajistit shortem typ 2
+
+### Kontext downtrendu
+- Short typ 3 = primární příležitost
+- Long korekce = pouze s těsným SL a malou pozicí
+- Long swing = veto dokud se trend na 1H neotočí
+
+---
+
+## Riziko nuceného investora
+
+### Kdy nastane
+- Vstoupíš do longu v downtrendu
+- SL příliš těsný = vymetení šumem
+- SL příliš vzdálený = velká ztráta nebo zamčený kapitál
+
+### Pravidlo
+SL musí být pod klíčovou technickou hladinou:
+- Pod HVN kde by průraz znamenal změnu struktury
+- Pokud cena překročí tuto hladinu = zamčený kapitál nebo nucený investor
+- Nikdy ne pevné USDC od vstupu
+
+### Ochrana
+- Velikost pozice úměrná vzdálenosti SL od vstupu
+- V downtrendu = menší pozice než v uptrendu
+- Zajišťovací short jako ochrana před nuceným investorem
+
+---
+
+## Makro analýza — cyklická pozice BTC 2026
+
+### Strukturální shoda 2022 vs 2026
+- Cyklus 2020-2023 koreluje strukturálně s cyklem 2023-2026
+- ATH 2021 (~69k) → korekce 2022 → dno ~15k (-78%)
+- ATH 2025 (~109k) → korekce 2026 → dno neznámé
+- Elliottovy vlny: aktuálně pravděpodobně vlna C dolů
+- EMA 200 (83 280) = silná resistance nad aktuální cenou
+
+### Klíčové support zóny dle Camarilla
+- S3: ~52k
+- S4: ~46k
+- S5: ~39k
+- Fibonacci 0.618 od celého bull cyklu: ~51k
+
+### Makro indikátory cyklického dna BTC
+Pro rozhodnutí o dlouhodobém holdingu — zatím nejsou v zelené zóně:
+- MVRV Z-Score: zelené pásmo (kolem 0) = historické dno cyklu
+- Puell Multiple: pod 0.5 = kapitulace těžařů
+- Fear & Greed Index: pod 20 = Extreme Fear = nákupní příležitost
+- Weekly RSI: pod 30 = velmi vzácné, historická makro dna
+Tyto indikátory jsou pro long-term holding, ne pro skalp.
+
+### Důsledky pro obchodování
+- Jsme v downtrendu na denním timeframu
+- Každý long je counter-trend trade s omezeným TP
+- Makro dno ještě pravděpodobně nepřišlo
+- Long-term holding: počkat na green zone on-chain indikátorů
+- Obchodní kapitál: oddělit od long-term holdingu
+
+---
+
+## Architektura pravděpodobností — Freqtrade jako jádro
+
+### Proč Freqtrade
+- Ruční kalibrace vah indikátorů je nepřesná a časově náročná
+- Freqtrade Hyperopt automaticky testuje tisíce kombinací
+- Najde optimální váhy které skutečně maximalizují profit
+- Průběžně se přelaďuje jak se mění podmínky trhu
+
+### Struktura
+
+FREQTRADE JÁDRO (offline):
+- Historická data z databáze (roky dat)
+- Hyperopt optimalizuje váhy pro každý indikátor na každém timeframu
+- Výstup: kalibrované pravděpodobnosti pro každý typ setupu
+- Příklad výstupu:
+  RSI 3M ≤30 alone → 45%
+  RSI 3M ≤30 + StochRSI confluence → 67%
+  RSI 3M ≤30 + StochRSI + HVN → 79%
+  RSI 3M ≤30 + StochRSI + HVN + MACD divergence → 84%
+
+PREDIKTOR btc_live.py (real-time):
+- Používá váhy a pravděpodobnosti z Freqtrade
+- Zobrazuje pravděpodobnost každého vstupu v reálném čase
+- Notifikace na telefon
+
+TY (manuální rozhodování):
+- Vidíš pravděpodobnost každého vstupu
+- Potvrdíš nebo zamítneš vizuálním čtením svíček na TradingView
+- Exekuce na Binance
+
+### Co Hyperopt optimalizuje
+Pro každý indikátor na každém timeframu:
+- Optimální práh (např. RSI ≤30 nebo ≤35 nebo ≤40)
+- Váha v celkovém skóre pravděpodobnosti
+- Kombinace indikátorů které mají nejvyšší prediktivní sílu
+- Optimální časové okno pro každý typ obchodu
+
+### Podmíněné pravděpodobnosti
+P(úspěch) = P(indikátor1) × váha1 + P(indikátor2) × váha2 + ...
+upravená o kontext: seance, ATR, trend, CVD, OI, funding rate
+
+### Přelaďování
+- Hyperopt běží periodicky na nových datech
+- Trh se mění = váhy se mění
+- Cíl: strategie která se adaptuje ne stárne
+
+### Prioritní úkoly před implementací Freqtrade
+1. Připojit historickou databázi
+2. Analyzovat skryté souvztažnosti v datech
+3. Definovat feature set pro Hyperopt
+4. Spustit první backtest
+5. Kalibrovat pravděpodobnosti
+6. Integrovat do btc_live.py
 10. Manipulation sweep vs skutečný obrat detektor
