@@ -18,4 +18,4 @@ Dry-run: Spusťte bota v režimu "dry-run" (bez skutečných peněz) na živých
 Výhody a rizika
 Výhody: Přesné technické signály LuxAlgo, 24/7 automatizace, možnost backtestingu.
 Rizika: Žádná strategie nefunguje stoprocentně ve všech podmínkách trhu (trend vs. sideways). Nutnost dobré znalosti Pythonu pro správný přepis indikátorů. 
-V rámci Freqtrade komunity existuje řada ukázkových strategií, ze kterých lze vycházet při stavbě vlastního řešení na bázi LuxAlgo
+V rámci Freqtrade komunity existuje řada ukázkových strategií, ze kterých lze vycházet při stavbě vlastního řešení na bázi LuxAlgo nebo jiných jako např. https://github.com/GZotin/RSI_MACD_strategy.
