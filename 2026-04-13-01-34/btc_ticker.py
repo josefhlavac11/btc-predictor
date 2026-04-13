@@ -129,7 +129,7 @@ def calc_indicators(closes, highs=None, lows=None, volumes=None, n=300):
     mn=rsi_s.rolling(14).min(); mx=rsi_s.rolling(14).max()
     K=((rsi_s-mn)/(mx-mn+1e-10)*100).rolling(3).mean(); D=K.rolling(3).mean()
 
-    e9=s.ewm(span=9,adjust=False).mean(); e21=s.ewm(span=21,adjust=False).mean()
+    e9=s.ewm(span=9,adjust=False).mean(); e21=s.ewm(span=21,adjust=False).mean(); e200=s.ewm(span=200,adjust=False).mean()
 
     # ATR
     tr=pd.concat([h-l,(h-s.shift()).abs(),(l-s.shift()).abs()],axis=1).max(axis=1)
@@ -149,7 +149,7 @@ def calc_indicators(closes, highs=None, lows=None, volumes=None, n=300):
         "sk":   v(K),       "sk_p":  v(K,-2),
         "sd":   v(D),       "sd_p":  v(D,-2),
         "mh":   v(mh_s),    "mh_p":  v(mh_s,-2),
-        "e9":   v(e9),      "e21":   v(e21),
+        "e9":   v(e9),      "e21":   v(e21),  "e200": v(e200),
         "atr":  v(atr_s),
         "roc5": v(roc5),
         "vol_ratio": v(vol_r),
@@ -418,7 +418,7 @@ def backtest_validate(closes, highs, lows, volumes, timestamps):
         lo_t=timestamps[li] if li<len(timestamps) else "?"
         hi_t=timestamps[hi] if hi<len(timestamps) else "?"
 
-        # Indikátory v době dna
+        # Indikátory v době dna (pro display)
         rsi_lo=float(rsi_all.iloc[li]); sk_lo=float(K_all.iloc[li])
         mh_lo=float(mh_all.iloc[li]); mh_lo_p=float(mh_all.iloc[li-1]) if li>0 else mh_lo
         vol_lo=float(vol_r_all.iloc[li]); roc_lo=float(roc5_all.iloc[li]) if li>=5 else 0
@@ -430,11 +430,15 @@ def backtest_validate(closes, highs, lows, volumes, timestamps):
         i_dummy={"sk":50,"rsi":50,"mh":0,"mh_p":0,"e9":lo_p,"e21":lo_p,"vol_ratio":1,"atr":30}
         mom_score_lo,_=momentum_score(i1_sim,i_dummy,i_dummy)
 
-        # Signál podmínky v době dna
+        # Signál podmínky: kontroluj v okně li-5 až li+2 (oprav confirmation lag)
+        w0=max(0,li-5); w1=min(n-1,li+2)
+        rsi_win=float(rsi_all.iloc[w0:w1+1].min())
+        sk_win=float(K_all.iloc[w0:w1+1].min())
+        mh_turn=any(float(mh_all.iloc[i])>float(mh_all.iloc[i-1]) for i in range(max(1,w0),w1+1))
         signal_conditions={
-            "RSI ≤40": rsi_lo<=40,
-            "SK ≤25":  sk_lo<=25,
-            "MH otáčí": mh_lo>mh_lo_p,
+            "RSI ≤50": rsi_win<=50,
+            "SK ≤35":  sk_win<=35,
+            "MH otáčí": mh_turn,
             "Moment≥40": mom_score_lo>=40,
         }
         signal_met=sum(signal_conditions.values())
@@ -588,6 +592,14 @@ def run(equity=10000, risk_pct=1.0, do_validate=True, backtest_only=False):
     # Klasifikace
     trade=classify_trade(i1,i3,i5,i15,i1h)
 
+    # Kontext filtr: cena >2×ATR pod VWAP → veto Swing/Swing+
+    atr_cur=i1["atr"]; e200_cur=i1["e200"]
+    vwap_below=vwap>0 and atr_cur>0 and price < vwap - 2*atr_cur
+    if vwap_below and trade["type"] in ("swing","swing_plus"):
+        trade=dict(trade); trade["signal"]=False; trade["veto"]="VWAP filtr (>2×ATR pod VWAP)"
+    else:
+        trade.setdefault("veto",None)
+
     # Position sizing
     ps=position_size(equity,price,trade["type"],mom,sess["mult"],wday>=5,risk_pct)
 
@@ -624,7 +636,9 @@ def run(equity=10000, risk_pct=1.0, do_validate=True, backtest_only=False):
     else:
         print(f"\n{SEP}")
 
-    print(f"  {price:,.2f}  VWAP {vwap:,.2f} ({'+' if vdiff>=0 else ''}{vdiff:.0f})")
+    e200d=price-e200_cur; e200p=e200d/e200_cur*100 if e200_cur>0 else 0
+    print(f"  {price:,.2f}  VWAP {vwap:,.2f} ({'+' if vdiff>=0 else ''}{vdiff:.0f})  EMA200 {e200_cur:,.2f} ({'+' if e200d>=0 else ''}{e200p:.2f}%)")
+    if vwap_below: print(f"  !! FILTR: {abs(vdiff):.0f} USDC ({abs(vdiff)/atr_cur:.1f}×ATR) pod VWAP — Swing zakázán")
     print(f"  {sess['name']} {sess['mult']}×  |  L:{l_sc}/9  S:{s_sc}/9  |  OB {ob['imb']*100:.0f}%")
     print(SEP)
 
@@ -650,14 +664,18 @@ def run(equity=10000, risk_pct=1.0, do_validate=True, backtest_only=False):
 
     # Obchod + pozice
     print(SEP)
-    print(f"  TYP: {trade['label'].upper()}  ({trade['confidence']}, skóre {trade['best_score']})")
-    scores_str = ', '.join(f"{TRADE_TYPES[k]['label']}:{v}" for k,v in trade['scores'].items())
-    print(f"  Typy skóre: {scores_str}")
-    print(f"  POZICE  portfolio {equity:,} USDC  risk {risk_pct}%")
-    print(f"  BTC {ps['btc']}  notional {ps['notional']:,}  leverage {ps['leverage']}×")
-    print(f"  Risk {ps['risk']} USDC ({ps['risk_pct']}%)  Cíl {ps['target']} USDC{'  ⚠min' if ps['min_enforced'] else ''}")
-    print(f"  TP {ps['tp_price']:,.0f}  SL {ps['sl_price']:,.0f}  BE {ps['be_price']:,.0f}")
-    if wday>=5: print(f"  ⚠ VÍKEND — pozice {sess['mult']*100:.0f}%")
+    if trade["signal"]:
+        print(f"  TYP: {trade['label'].upper()}  ({trade['confidence']}, skóre {trade['best_score']})")
+        scores_str = ', '.join(f"{TRADE_TYPES[k]['label']}:{v}" for k,v in trade['scores'].items())
+        print(f"  Typy skóre: {scores_str}")
+        print(f"  POZICE  portfolio {equity:,} USDC  risk {risk_pct}%")
+        print(f"  BTC {ps['btc']}  notional {ps['notional']:,}  leverage {ps['leverage']}×")
+        print(f"  Risk {ps['risk']} USDC ({ps['risk_pct']}%)  Cíl {ps['target']} USDC{'  ⚠min' if ps['min_enforced'] else ''}")
+        print(f"  TP {ps['tp_price']:,.0f}  SL {ps['sl_price']:,.0f}  BE {ps['be_price']:,.0f}")
+        if wday>=5: print(f"  ⚠ VÍKEND — pozice {sess['mult']*100:.0f}%")
+    else:
+        reason=trade.get("veto") or "podmínky nesplněny"
+        print(f"  Zadny signal — {reason}")
     print(SEP)
 
     # Klíčové úrovně

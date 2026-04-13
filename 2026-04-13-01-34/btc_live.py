@@ -142,7 +142,7 @@ def add_indicators(df):
     df["rsi"]=rsi(df["close"])
     df["macd"],df["macd_sig"],df["mh"]=macd(df["close"])
     df["sk"],df["sd"]=stoch_rsi(df["close"])
-    df["e9"]=ema(df["close"],9); df["e21"]=ema(df["close"],21); df["e50"]=ema(df["close"],50)
+    df["e9"]=ema(df["close"],9); df["e21"]=ema(df["close"],21); df["e50"]=ema(df["close"],50); df["e200"]=ema(df["close"],200)
     df["atr"]=atr(df)
     df["roc5"]=(df["close"]-df["close"].shift(5))/df["close"].shift(5)*100
     df["vol_ma"]=df["volume"].rolling(20).mean()
@@ -562,6 +562,14 @@ def analyze(equity=10000, risk_pct=1.0, do_validate=True):
     # Klasifikace obchodu
     trade=classify_trade(r1m,r3m,r5m,r15,r1h)
 
+    # Kontext filtr: cena >2×ATR pod VWAP → veto Swing/Swing+
+    atr_cur=float(r1m.get("atr",0)); e200_cur=float(r1m.get("e200",0))
+    vwap_below=vwap>0 and atr_cur>0 and cur < vwap - 2*atr_cur
+    if vwap_below and trade["type"] in ("swing","swing_plus"):
+        trade=dict(trade); trade["signal"]=False; trade["veto"]="VWAP filtr (>2×ATR pod VWAP)"
+    else:
+        trade.setdefault("veto",None)
+
     # Velikost pozice
     ps=position_size(equity,cur,trade["type"],mom,sess["mult"],wday>=5,risk_pct)
 
@@ -601,7 +609,9 @@ def analyze(equity=10000, risk_pct=1.0, do_validate=True):
 
     # ═══ VÝSTUP ═════════════════════════════════════════════════════════════
 
-    print(f"\n  Cena:    {cur:>10,.2f}  VWAP {vwap:,.2f} ({'+' if vdiff>=0 else ''}{vdiff:.0f})")
+    e200d=cur-e200_cur; e200p=e200d/e200_cur*100 if e200_cur>0 else 0
+    print(f"\n  Cena:    {cur:>10,.2f}  VWAP {vwap:,.2f} ({'+' if vdiff>=0 else ''}{vdiff:.0f})  EMA200 {e200_cur:,.2f} ({'+' if e200d>=0 else ''}{e200p:.2f}%)")
+    if vwap_below: print(f"  !! KONTEXT FILTR AKTIVAN: cena {abs(vdiff):.0f} USDC ({abs(vdiff)/atr_cur:.1f}×ATR) pod VWAP — Swing/Swing+ zakázáno")
     print(f"  Seance:  {sess['name']}  mult {sess['mult']}×  — {sess['note']}")
     print(f"  Čas:     {str(r1m['time'])[:16]} SEČ")
 
@@ -657,7 +667,8 @@ def analyze(equity=10000, risk_pct=1.0, do_validate=True):
         print(f"  TP:      {ps['tp_price']:,.0f}  SL: {ps['sl_price']:,.0f}  BE: {ps['be_price']:,.0f}")
         if wday>=5: print(f"  ⚠  VÍKEND — pozice snížena na {sess['mult']*100:.0f}% standardu")
     else:
-        print(f"  Žádný signál — podmínky nesplněny")
+        reason=trade.get("veto") or "podmínky nesplněny"
+        print(f"  Žádný signál — {reason}")
 
     # Klíčové úrovně
     print(f"\n  {sep}")
