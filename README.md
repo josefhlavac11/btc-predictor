@@ -1,4 +1,4 @@
-Inspirováno použitím LuxAlgo indikátorů (často označovaných jako "algolux" v kontextu algoritmického obchodování) v rámci Freqtrade pro automatizaci technické analýzy jako asistenta při intradenním tradingu a přenos indikátorů LuxAlgo TradingView do open-source.
+Inspirováno použitím LuxAlgo indikátorů (často označovaných jako "algolux" v kontextu algoritmického obchodování) https://www.luxalgo.com/ v rámci Freqtrade https://github.com/freqtrade pro automatizaci technické analýzy jako asistenta při intradenním tradingu a přenos indikátorů LuxAlgo TradingView https://www.tradingview.com/ do open-source projektu.
 Zde je přehled toho, jak tyto dva systémy propojit a co je k tomu potřeba:
 Co je Freqtrade a LuxAlgo?
 Freqtrade: Open-source krypto obchodní bot napsaný v Pythonu. Umožňuje backtesting, optimalizaci a 24/7 obchodování na burzách jako Binance, Bybit atd.
